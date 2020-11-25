@@ -2,15 +2,16 @@
 #include <iostream>
 #include <fstream>
 #include <string.h>
+#include <mat.h>
 
 #include "util/quantize.h"
 
 using namespace std;
 using namespace gmm;
 
-#define DATATYPE float
-#define DATASIZE 200
-#define MIXNUM 10
+#define DATATYPE double
+#define DATASIZE 10000
+#define MIXNUM 20
 #define MAXITERNUM 100
 #define ENDERROR 0.001
 #define DIMNUM 3
@@ -351,7 +352,12 @@ int main() {
 	fp.open("../PointCloud6.csv");
 	string tmp;
 
-    const int datasize = 200;     //Number of samples
+	MATFile *pmatFile_means = NULL;
+    mxArray *pMxArray_means = NULL;
+	MATFile *pmatFile_vars = NULL;
+    mxArray *pMxArray_vars = NULL;
+
+    const int datasize = 10000;     //Number of samples
     const int dim = 3;           //Dimension of feature
     //const int cluster_num = 4;   //Cluster number
 	int split_index[6];
@@ -359,7 +365,7 @@ int main() {
     int index = 0;
 	for(int i =0; i < 180000; i++){
         fp >> tmp;
-		if(i%900 == 0){
+		if(i%(180000/datasize) == 0){
 			int k = 0;
 			for(int j = 0; j < tmp.length(); j++) {
 				if(tmp[j] == ',') {
@@ -377,6 +383,7 @@ int main() {
 #ifdef FIX
 	int p = floor(cpu_fix_pos_overflow(DATASIZE, data, QUANTIZE_BIT));
 	cpu_fix(DATASIZE, data, data, QUANTIZE_BIT, p);
+	cout<<"Fix"<<endl;
 #endif
 
 //set gaussian parameters
@@ -403,6 +410,19 @@ int main() {
 		cout << m_means[i*3] << ' '<< m_means[i*3+1] << ' '<< m_means[i*3+2] << endl;
 		cout << m_vars[i*3] << ' '<< m_vars[i*3+1] << ' '<< m_vars[i*3+2] << endl;
 	}
+
+	// write .mat	
+	pmatFile_means = matOpen("means_1.mat","w");
+	pMxArray_means = mxCreateDoubleMatrix(3, 10, mxREAL);
+	mxSetData(pMxArray_means, m_means);
+	matPutVariable(pmatFile_means, "means", pMxArray_means);
+    matClose(pmatFile_means);
+
+	pmatFile_vars = matOpen("vars_1.mat","w");
+	pMxArray_vars = mxCreateDoubleMatrix(3, 10, mxREAL);
+	mxSetData(pMxArray_vars, m_vars);
+	matPutVariable(pmatFile_vars, "vars", pMxArray_vars);
+    matClose(pmatFile_vars);
 
 	fp.close();
 
