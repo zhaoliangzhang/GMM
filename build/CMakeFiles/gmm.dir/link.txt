@@ -1,1 +1,0 @@
-/usr/bin/c++    -rdynamic CMakeFiles/gmm.dir/train.cpp.o  -o gmm   -L/mnt/d/Project/GMM/lib  -Wl,-rpath,/mnt/d/Project/GMM/lib ../lib/libquantize.so 

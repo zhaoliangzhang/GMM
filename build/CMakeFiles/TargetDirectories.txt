@@ -1,4 +1,0 @@
-/mnt/d/Project/GMM/build/CMakeFiles/rebuild_cache.dir
-/mnt/d/Project/GMM/build/CMakeFiles/edit_cache.dir
-/mnt/d/Project/GMM/build/CMakeFiles/gmm.dir
-/mnt/d/Project/GMM/build/CMakeFiles/quantize.dir
