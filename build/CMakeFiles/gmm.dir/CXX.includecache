@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/util/quantize.h
+
+/mnt/d/Project/GMM/train.cpp
+math.h
+-
+iostream
+-
+fstream
+-
+string.h
+-
+util/quantize.h
+/mnt/d/Project/GMM/util/quantize.h
+
